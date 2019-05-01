@@ -1,0 +1,17 @@
+{
+  "name": "ec2-user",
+  "version": "1.0.0",
+  "description": "proxie after load balancer",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Ben Poling",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "dotenv": "^7.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
