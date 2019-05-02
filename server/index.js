@@ -83,6 +83,26 @@ const server = http.createServer((req, res) => {
        res.end(JSON.stringify(resp));
      }).catch(err => console.log(err))
     })
+  } else if(req.method === 'PATCH') {
+    let dataCatch = '';
+    req.on('data', chunk => {
+     dataCatch += chunk.toString();
+    })
+    req.on('end', () => {
+     let options = {
+       uri: 'http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/',
+       method: 'PATCH',
+       body: JSON.parse(dataCatch),
+       json: true
+     }
+     request(options).then(resp => {
+       res.writeHead(200,{
+         'Content-Type': 'application/json'
+       })
+       console.log(resp)
+       res.end(JSON.stringify(resp));
+     }).catch(err => console.log(err))
+    })
   }
   
 }).listen(PORT, () => console.log(`SERVER LISTENING ON ${PORT}`))
