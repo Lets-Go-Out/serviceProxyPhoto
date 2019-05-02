@@ -1,6 +1,8 @@
+require('newrelic')
 const dotenv = require('dotenv');
 dotenv.config();
 
+const fs = require('fs')
 const redisDB = require('/home/ec2-user/redis/redis.js');
 const request = require('request-promise')
 const http = require('http');
@@ -9,7 +11,19 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
   if(req.method === 'GET') {
-    if(req.url === '/restNames') {
+    if (req.url === '/loaderio-05e6f789e3d73957cf97fafc405aa447.txt'){
+        fs.readFile('/home/ec2-user/server/loader.txt', (err, file) => {
+          if(err) {
+            console.log(err)
+          } else {
+   	    res.writeHead(200, {
+	      'Content-Type': 'text/html',
+              'Access-Control-Allow-Origin': '*'
+            })
+	    res.end(file);
+          }
+        })
+      } else if(req.url === '/restNames') {
       redisDB.get('popular', (err, result) => {
         if(result) {
             res.writeHead(200, {

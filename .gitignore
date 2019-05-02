@@ -9,3 +9,11 @@ node_modules/
 .bash_profile
 .bashrc
 .config/
+.newrelic.js
+.node-gyp/
+.pm2/
+.loader.txt
+.newrelic_agent.log
+newrelic.js
+/server/loader.txt
+/server/newrelic_agent.log
