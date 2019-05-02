@@ -8,13 +8,13 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
-  console.log(req.method);
   if(req.method === 'GET') {
     if(req.url === '/restNames') {
       redisDB.get('popular', (err, result) => {
         if(result) {
             res.writeHead(200, {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+	      'Access-Control-Allow-Origin': '*'
             })
             res.end(result);
         } else {
@@ -24,6 +24,7 @@ const server = http.createServer((req, res) => {
           request(options).then(popular => {
 	    redisDB.set('popular', JSON.stringify(popular));
             res.writeHead(200, {
+	      'Access-Control-Allow-Origin': '*',
    	      'Content-Type': 'application/json'
             })
             res.end(JSON.stringify(popular));
@@ -32,12 +33,13 @@ const server = http.createServer((req, res) => {
       })
     } else if(isNaN(req.url.substr(1)) !== true) {
       let id = req.url.substr(1);
-     redisDB.get(id, (err, photoResult) => {
+      redisDB.get(id, (err, photoResult) => {
         if(photoResult) {
           res.writeHead(200, {
+	    'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
           })
-	  res.end(photoResult);
+	  res.end(JSON.parse(photoResult));
         } else {
         let options = {
         uri: `http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/${id}`
@@ -45,9 +47,10 @@ const server = http.createServer((req, res) => {
       request(options).then(photos => {
         redisDB.set(id, JSON.stringify(photos))
         res.writeHead(200,{
+	    'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
            })
-            res.end(photos);
+           res.end(photos);
           }).catch(err => console.log(err, 'THIS IS TFROM THE CATCH BLCOK'))
         }
       })
@@ -60,6 +63,7 @@ const server = http.createServer((req, res) => {
     }
     request(options).then(resp => {
       res.writeHead(200,{
+ 	'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       })
       res.end(resp);
@@ -78,6 +82,7 @@ const server = http.createServer((req, res) => {
      }
      request(options).then(resp => {
        res.writeHead(200,{
+	 'Access-Control-Allow-Origin': '*',
          'Content-Type': 'application/json'
        })
        res.end(JSON.stringify(resp));
@@ -97,9 +102,9 @@ const server = http.createServer((req, res) => {
      }
      request(options).then(resp => {
        res.writeHead(200,{
+	 'Access-Control-Allow-Origin': '*',
          'Content-Type': 'application/json'
        })
-       console.log(resp)
        res.end(JSON.stringify(resp));
      }).catch(err => console.log(err))
     })
