@@ -8,7 +8,7 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
-console.log(req.url.substr(1))
+  console.log(req.method);
   if(req.method === 'GET') {
     if(req.url === '/restNames') {
       redisDB.get('popular', (err, result) => {
@@ -32,7 +32,6 @@ console.log(req.url.substr(1))
       })
     } else if(isNaN(req.url.substr(1)) !== true) {
       let id = req.url.substr(1);
-        console.log(id, 'THIS IS THR ID') 
      redisDB.get(id, (err, photoResult) => {
         if(photoResult) {
           res.writeHead(200, {
@@ -53,6 +52,18 @@ console.log(req.url.substr(1))
         }
       })
     }
+  } else if(req.method === 'DELETE') {
+    let id = req.url.substr(1);
+    let options = {
+      uri: `http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/${id}`,
+      method: 'DELETE'
+    }
+    request(options).then(resp => {
+      res.writeHead(200,{
+        'Content-Type': 'application/json'
+      })
+      res.end(resp);
+    }).catch(err => console.log(err));
   }
   
 }).listen(PORT, () => console.log(`SERVER LISTENING ON ${PORT}`))
