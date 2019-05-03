@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
   if(req.method === 'GET') {
-    if (req.url === '/loaderio-05e6f789e3d73957cf97fafc405aa447.txt'){
+    if (req.url === '/loaderio-58ce6fe976c9252e2545d2f070f321e7.txt'){
         fs.readFile('/home/ec2-user/server/loader.txt', (err, file) => {
           if(err) {
             console.log(err)
@@ -33,7 +33,7 @@ const server = http.createServer((req, res) => {
             res.end(result);
         } else {
           let options = {
-            uri: 'http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/restNames'
+            uri: 'http://ec2-54-244-172-153.us-west-2.compute.amazonaws.com:3004/restNames'
           }
           request(options).then(popular => {
 	    redisDB.set('popular', JSON.stringify(popular));
@@ -56,7 +56,7 @@ const server = http.createServer((req, res) => {
 	  res.end(JSON.parse(photoResult));
         } else {
         let options = {
-        uri: `http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/${id}`
+        uri: `http://ec2-54-244-172-153.us-west-2.compute.amazonaws.com:3004/${id}`
         }
       request(options).then(photos => {
         redisDB.set(id, JSON.stringify(photos))
@@ -72,7 +72,7 @@ const server = http.createServer((req, res) => {
   } else if(req.method === 'DELETE') {
     let id = req.url.substr(1);
     let options = {
-      uri: `http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/${id}`,
+      uri: `http://ec2-54-244-172-153.us-west-2.compute.amazonaws.com:3004/${id}`,
       method: 'DELETE'
     }
     request(options).then(resp => {
@@ -89,7 +89,7 @@ const server = http.createServer((req, res) => {
     })
     req.on('end', () => {
      let options = {
-       uri: 'http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/',
+       uri: 'http://ec2-54-244-172-153.us-west-2.compute.amazonaws.com:3004/',
        method: 'POST',
        body: JSON.parse(dataCatch),
        json: true
@@ -109,7 +109,7 @@ const server = http.createServer((req, res) => {
     })
     req.on('end', () => {
      let options = {
-       uri: 'http://ec2-54-218-12-68.us-west-2.compute.amazonaws.com:3004/',
+       uri: 'http://ec2-54-244-172-153.us-west-2.compute.amazonaws.com:3004/',
        method: 'PATCH',
        body: JSON.parse(dataCatch),
        json: true
