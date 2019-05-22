@@ -15,7 +15,7 @@ const server = http
       if (req.url === "/loaderio-58ce6fe976c9252e2545d2f070f321e7.txt") {
         fs.readFile("/home/ec2-user/server/loader.txt", (err, file) => {
           if (err) {
-            console.log(err);
+            res.end(err);
           } else {
             res.writeHead(200, {
               "Content-Type": "text/html",
@@ -46,7 +46,7 @@ const server = http
                 });
                 res.end(JSON.stringify(popular));
               })
-              .catch(err => console.log(err));
+              .catch(err => res.end(err));
           }
         });
       } else if (isNaN(req.url.substr(1)) !== true) {
@@ -71,7 +71,7 @@ const server = http
                 });
                 res.end(photos);
               })
-              .catch(err => console.log(err, "THIS IS TFROM THE CATCH BLCOK"));
+              .catch(err => res.end(err));
           }
         });
       }
@@ -89,7 +89,7 @@ const server = http
           });
           res.end(resp);
         })
-        .catch(err => console.log(err));
+        .catch(err => res.end(err));
     } else if (req.method === "POST") {
       let dataCatch = "";
       req.on("data", chunk => {
@@ -111,7 +111,7 @@ const server = http
             });
             res.end(JSON.stringify(resp));
           })
-          .catch(err => console.log(err));
+          .catch(err => res.end(err));
       });
     } else if (req.method === "PATCH") {
       let dataCatch = "";
@@ -134,7 +134,7 @@ const server = http
             });
             res.end(JSON.stringify(resp));
           })
-          .catch(err => console.log(err));
+          .catch(err => res.end(err));
       });
     }
   })
